@@ -7,18 +7,22 @@
     <script>
     window.addEventListener("DOMContentLoaded", init);
 
+
+
+
 function init() {
 
   // レンダラーを作成
-  const width = 640;
-  const height = 480;
+  const width = 960;
+  const height = 540;
   const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector("#myCanvas"),
     antialias: true,
     alpha: true
   });
+
   //renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setClearColor(new THREE.Color(), 0.5);
+  renderer.setClearColor(new THREE.Color(), 0.);
   renderer.setSize(width, height);
   renderer.domElement.style.position = 'absolute';
   renderer.domElement.style.top = '0px';
@@ -36,9 +40,21 @@ function init() {
 
   arToolkitSource.init(() => {
     setTimeout(() => {
-      //onResize();
+      onResize();
     }, 2000);
   });
+
+  addEventListener('resize', () => {
+    onResize();
+  });
+
+  function onResize() {
+    arToolkitSource.onResizeElement();
+    arToolkitSource.copyElementSizeTo(renderer.domElement);
+    if (arToolkitContext.arController !== null) {
+      arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
+    }
+  };
 
   const arToolkitContext = new THREEx.ArToolkitContext({
     cameraParametersUrl: 'data/camera_para.dat',
@@ -54,6 +70,31 @@ function init() {
     patternUrl: 'data/patt.hiro',
     changeMatrixMode: 'cameraTransformMatrix'
   });
+
+  var output = [];
+  document.querySelector("#record").onclick = function() {
+    let out1 = [ camera.position.x, camera.position.y, camera.position.z, camera.rotation.x, camera.rotation.y, camera.rotation.z];
+    output.push(out1);
+    console.log(output);
+  }
+  document.querySelector("#save").onclick = function() {
+    let data = output.map((record)=>record.join(',')).join('\r\n');
+    let bom  = new Uint8Array([0xEF, 0xBB, 0xBF]);
+    let blob = new Blob([bom, data], {type: 'text/csv'});
+    let url = (window.URL || window.webkitURL).createObjectURL(blob);
+    let link = document.createElement('a');
+    link.download = 'result.csv';
+    link.href = url;
+    link.innerText = 'DL';
+    const result = document.getElementById('result');
+    result.appendChild(link);
+  }
+
+
+  function OnButtonClick() {
+      console.log("clicking");
+      console.log(camera.position);
+  }
 
   const mesh = new THREE.Mesh(
     new THREE.CubeGeometry(1, 1, 1),
@@ -100,11 +141,24 @@ function init() {
 }
     </script>
   </head>
+  <style>
+    div#floating-menu {
+        position: fixed;
+        top: 50px;
+        width: 0px;
+        height: 0px;
+        right: 90%;
+        z-index: 9999;
+    }
+    </style>
   <body>
 
     <canvas id="myCanvas"></canvas>
-    <input type="button" value="Exec" onclick="OnButtonClick();"/><br />
-    <br />
-    <div id="output"></div>
+    <div id=floating-menu>
+      <input id="save" type="submit" value="Save">
+      <input id="record" type="submit" value="Record">
+      <div id="result"></div>
+
+    </div>
   </body>
 </html>
