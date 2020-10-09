@@ -12,11 +12,30 @@
         alpha: true
       });
       renderer.setClearColor(new THREE.Color(), 0);
-      renderer.setSize(640, 480);
+//      renderer.setSize(640, 480);
+      renderer.setSize(80, 120);
       renderer.domElement.style.position = 'absolute';
       renderer.domElement.style.top = '0px';
       renderer.domElement.style.left = '0px';
+  
+
+      var idx = 1;
+      var element = document.createElement("button");
+      element.innerText = "No." + idx;
+      idx++;
+      // 要素にクリックイベントを追加する
+      element.onclick = function() {
+        var str = camera.position.x + "," + camera.position.y + "," + camera.position.z + "," +camera.rotation.x + "," + camera.rotation.y + "," + camera.rotation.z;
+        console.log("camera position");
+        console.log(str);
+
+      };      
+
+      document.body.appendChild(element);
       document.body.appendChild(renderer.domElement);
+
+
+
 
       const scene = new THREE.Scene();
       scene.visible = false;
@@ -76,20 +95,20 @@
       const clock = new THREE.Clock();
       requestAnimationFrame(function animate(){
         requestAnimationFrame(animate);
-        console.log("camera position");
-        console.log(camera.position);
-        console.log("camera rotation");
-        console.log(camera.rotation);
-        console.log("camera lookAt");
-        console.log(camera.lookAt);
-        console.log("camera up");
-        console.log(camera.up);
-        console.log("camera fovy");
-        console.log(camera.fovy);
+        //console.log("camera position");
+        //console.log(camera.position);
+        //console.log("camera rotation");
+        //console.log(camera.rotation);
+        //console.log("camera lookAt");
+        //console.log(camera.lookAt);
+        //console.log("camera up");
+        //console.log(camera.up);
+        //console.log("camera fovy");
+        //console.log(camera.fovy);
 
 
 
-        console.log("camera end");
+        //console.log("camera end");
         if (arToolkitSource.ready) {
           arToolkitContext.update(arToolkitSource.domElement);
           scene.visible = camera.visible;
@@ -100,5 +119,6 @@
         renderer.render(scene, camera);
       });
     </script>
+    <canvas id="myCanvas"></canvas>
   </body>
 </html>
