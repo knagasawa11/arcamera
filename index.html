@@ -76,8 +76,17 @@
       const clock = new THREE.Clock();
       requestAnimationFrame(function animate(){
         requestAnimationFrame(animate);
-        console.log("camera");
+        console.log("camera position");
         console.log(camera.position);
+        console.log("camera lookAt");
+        console.log(camera.lookAt);
+        console.log("camera up");
+        console.log(camera.up);
+        console.log("camera fov");
+        console.log(camera.fov);
+
+
+
         console.log("camera end");
         if (arToolkitSource.ready) {
           arToolkitContext.update(arToolkitSource.domElement);
