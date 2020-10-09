@@ -29,12 +29,12 @@
 
       arToolkitSource.init(() => {
         setTimeout(() => {
-          onResize();
+          //onResize();
         }, 2000);
       });
 
       addEventListener('resize', () => {
-        onResize();
+        //onResize();
       });
 
       function onResize() {
@@ -59,6 +59,8 @@
         patternUrl: 'data/patt.hiro',
         changeMatrixMode: 'cameraTransformMatrix'
       });
+      console.log("Armarker");
+      console.log(arMarkerControls.size);
 
       const mesh = new THREE.Mesh(
         new THREE.CubeGeometry(1, 1, 1),
