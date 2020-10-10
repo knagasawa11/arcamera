@@ -112,12 +112,12 @@ function init() {
   // obj mtlの読み込み
   var mtlLoader = new THREE.MTLLoader();
   mtlLoader.setPath( assetsPath );              // this/is/obj/path/
-  mtlLoader.load( 'suzanu.mtl', function( materials ) {
+  mtlLoader.load( 'test.mtl', function( materials ) {
     materials.preload();
     var objLoader = new THREE.OBJLoader();
     objLoader.setMaterials( materials );
     objLoader.setPath( assetsPath );            // this/is/obj/path/
-    objLoader.load( 'suzanu.obj', function ( object ) {
+    objLoader.load( 'test.obj', function ( object ) {
       scene.add(object);                         // sceneに追加
     }, onProgress, onError );
   });
