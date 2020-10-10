@@ -4,17 +4,12 @@
     <title>Marker Based AR with AR.js and Three.js</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/3.1.0/three.js/build/ar.js"></script>
-    <script type="module">
-        import {OBJLoader2} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/OBJLoader2.js';
-    </script>
-    <script type="module">
-        import {OBJLoader2} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/OBJLoader2.js';
+    <!-- MTLLoader.js -->
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r79/examples/js/loaders/MTLLoader.js"></script>
 
+    <script>
 
     window.addEventListener("DOMContentLoaded", init);
-
-
-
 
 function init() {
 
@@ -99,11 +94,28 @@ function init() {
   );
   mesh.position.y = 1.0;
   //scene.add(mesh);  
+  // OBJ MTLの読み込み
+  var mtlLoader = new THREE.MTLLoader();
+  mtlLoader.setPath( './data/' );              // this/is/obj/path/
+  mtlLoader.load( 'suzanu.mtl', function( materials ) {
+    materials.preload();
+    var objLoader = new THREE.OBJLoader();
+    objLoader.setMaterials( materials );
+    objLoader.setPath( './data/' );            // this/is/obj/path/
+    objLoader.load( 'suzanu.obj', function ( object ) {
+      objmodel = object.clone();
+      objmodel.scale.set(1, 1, 1);      // 縮尺の初期化
+      objmodel.rotation.set(0, 0, 0);         // 角度の初期化
+      objmodel.position.set(0, 0, 0);         // 位置の初期化
 
-  const objLoader = new OBJLoader2();
-  objLoader.load('data/suzanu.obj', (root) => {
-    scene.add(root);
+  // objをObject3Dで包む
+      obj = new THREE.Object3D();
+      obj.add(objmodel);
+
+      scene.add(obj);                         // sceneに追加
+    }, onProgress, onError );
   });
+
 
 
   // 初回実行
