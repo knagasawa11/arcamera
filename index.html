@@ -97,37 +97,28 @@ function init() {
   //scene.add(mesh);  
 
 
-  function loadOBJ() {
-    // obj mtl を読み込んでいる時の処理
-    var onProgress = function ( xhr ) {
-        if ( xhr.lengthComputable ) {
-            var percentComplete = xhr.loaded / xhr.total * 100;
-            console.log( Math.round(percentComplete, 2) + '% downloaded' );
-            }
-  };
 
-    // obj mtl が読み込めなかったときのエラー処理
-  var onError = function ( xhr ) {    };
+  // obj mtl を読み込んでいる時の処理
+  var onProgress = function ( xhr ) {
+      if ( xhr.lengthComputable ) {
+          var percentComplete = xhr.loaded / xhr.total * 100;
+          console.log( Math.round(percentComplete, 2) + '% downloaded' );
+          }
   };
-  // OBJ MTLの読み込み
+  // obj mtl が読み込めなかったときのエラー処理
+  var onError = function ( xhr ) {    };
+
+  var assetsPath = './data';
+  // obj mtlの読み込み
   var mtlLoader = new THREE.MTLLoader();
-  mtlLoader.setPath( './data/' );              // this/is/obj/path/
+  mtlLoader.setPath( assetsPath );              // this/is/obj/path/
   mtlLoader.load( 'suzanu.mtl', function( materials ) {
     materials.preload();
     var objLoader = new THREE.OBJLoader();
     objLoader.setMaterials( materials );
-    objLoader.setPath( './data/' );            // this/is/obj/path/
+    objLoader.setPath( assetsPath );            // this/is/obj/path/
     objLoader.load( 'suzanu.obj', function ( object ) {
-      objmodel = object.clone();
-      objmodel.scale.set(1, 1, 1);      // 縮尺の初期化
-      objmodel.rotation.set(0, 0, 0);         // 角度の初期化
-      objmodel.position.set(0, 0, 0);         // 位置の初期化
-
-  // objをObject3Dで包む
-      obj = new THREE.Object3D();
-      obj.add(objmodel);
-
-      scene.add(obj);                         // sceneに追加
+      scene.add(object);                         // sceneに追加
     }, onProgress, onError );
   });
 
