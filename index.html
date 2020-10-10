@@ -95,6 +95,20 @@ function init() {
   );
   mesh.position.y = 1.0;
   //scene.add(mesh);  
+
+
+  function loadOBJ() {
+    // obj mtl を読み込んでいる時の処理
+    var onProgress = function ( xhr ) {
+        if ( xhr.lengthComputable ) {
+            var percentComplete = xhr.loaded / xhr.total * 100;
+            console.log( Math.round(percentComplete, 2) + '% downloaded' );
+            }
+  };
+
+    // obj mtl が読み込めなかったときのエラー処理
+    var onError = function ( xhr ) {    };
+
   // OBJ MTLの読み込み
   var mtlLoader = new THREE.MTLLoader();
   mtlLoader.setPath( './data/' );              // this/is/obj/path/
