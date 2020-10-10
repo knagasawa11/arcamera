@@ -4,7 +4,13 @@
     <title>Marker Based AR with AR.js and Three.js</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/3.1.0/three.js/build/ar.js"></script>
-    <script>
+    <script type="module">
+        import {OBJLoader2} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/OBJLoader2.js';
+    </script>
+    <script type="module">
+        import {OBJLoader2} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/OBJLoader2.js';
+
+
     window.addEventListener("DOMContentLoaded", init);
 
 
@@ -92,7 +98,13 @@ function init() {
     new THREE.MeshNormalMaterial(),
   );
   mesh.position.y = 1.0;
-  scene.add(mesh);  
+  //scene.add(mesh);  
+
+  const objLoader = new OBJLoader2();
+  objLoader.load('data/suzanu.dat', (root) => {
+    scene.add(root);
+  });
+
 
   // 初回実行
   renderer.render(scene, camera);
@@ -139,6 +151,7 @@ function init() {
 
   // 毎フレーム時に実行されるループイベントです
   function tick() {
+    scene.visible = true;
     if ( record_flag == true ) {
       document.getElementById('id01').innerHTML = clock.elapsedTime;
     }
