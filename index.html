@@ -122,6 +122,13 @@ function init() {
     }, onProgress, onError );
   });
 
+  light = new THREE.DirectionalLight("white", 1);
+  light.position.set(30, 200, 30);
+  light.castShadow = true;
+  scene.add(light);
+
+  ambient = new THREE.AmbientLight(0xffffff);
+  scene.add(ambient);
 
 
   // 初回実行
