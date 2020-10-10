@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Marker Based AR with AR.js and Three.js</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/3.1.0/three.js/build/ar.js"></script>
+  <meta charset="UTF-8" />
+  <script type="module">
+  import {OBJLoader2} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/OBJLoader2.js';
+
+  window.addEventListener("DOMContentLoaded", init);
+
+function init() {
+
+  const width = 960;
+  const height = 540;
+
+  // レンダラーを作成
+  // レンダラーを作成
+  const renderer = new THREE.WebGLRenderer({
+    canvas: document.querySelector("#myCanvas")
+  });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(width, height);
+
+  // シーンを作成
+  const scene = new THREE.Scene();
+
+  // カメラを作成
+  const camera = new THREE.PerspectiveCamera(
+    45,
+    width / height,
+    1,
+    10000
+  );
+  camera.position.set(0, 0, +1000);
+
+  // 箱を作成
+  const geometry = new THREE.BoxGeometry(500, 500, 500);
+  const material = new THREE.MeshStandardMaterial({
+    color: 0x0000ff
+  });
+  const box = new THREE.Mesh(geometry, material);
+  //scene.add(box);
+  
+  const objLoader = new OBJLoader2();
+  objLoader.load('data/suzanu.dat', (root) => {
+    scene.add(root);
+  });
+  
+
+  // 平行光源
+  const directionalLight = new THREE.DirectionalLight(
+    0xffffff
+  );
+  directionalLight.position.set(1, 1, 1);
+  // シーンに追加
+  scene.add(directionalLight);
+
+  // 初回実行
+  renderer.render(scene, camera);
+}
+  </script>
+</head>
+<body>
+  <canvas id="myCanvas"></canvas>
+</body>
+</html>
