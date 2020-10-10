@@ -82,7 +82,7 @@ function init() {
     let link = document.createElement('a');
     link.download = 'result.csv';
     link.href = url;
-    link.innerText = 'DL';
+    link.innerText = 'Down Load Here!!';
     const result = document.getElementById('result');
     result.appendChild(link);
   }
@@ -103,7 +103,7 @@ function init() {
   var record_flag = false;
   var counting = 0;
   var countup = function(){
-    let out1 = [ camera.position.x, camera.position.y, camera.position.z, camera.rotation.x, camera.rotation.y, camera.rotation.z];
+    let out1 = [ camera.position.x, camera.position.y, camera.position.z, camera.rotation.x, camera.rotation.y, camera.rotation.z,camera.quaternion.x, camera.quaternion.y, camera.quaternion.z, camera.quaternion.w];
     output.push(out1);
     console.log(output);
     console.log(counting++);
@@ -122,12 +122,14 @@ function init() {
     clock.start();
     startTimer();
     document.getElementById("time check").value="Recording now"
+    document.getElementById("time check").style.backgroundColor = "#f143433b";
   }
   if ( record_flag == true ) {
     clock.stop();
     stopTimer();
     counting = 0;
     document.getElementById("time check").value="Start Record"
+    document.getElementById("time check").style.backgroundColor = "#dfe7ec";
   }
   record_flag = !record_flag;
   };
@@ -171,30 +173,38 @@ function init() {
     div#floating-menu-left {
         position: fixed;
         top: 10%;
-        width: 0px;
+        width: 100%;
         height: 0px;
-        right: 90%;
+        right: 0%;
         z-index: 9999;
     }
     div#floating-menu-right {
       position: fixed;
       bottom: 20%;
-      width: 0px;
+      width: 100%;
       height: 0px;
-      right: 90%;
+      right: 0%;
       z-index: 9999;
     }    
 
     .btn-flat-border {
+        background: #dfe7ec3b;
         display: inline-block;
-        padding: 1.3em 2em;
+        padding: 2.3em 2em;
         text-decoration: none;
         color: #67c5ff;
         border: solid 2px #67c5ff;
         border-radius: 3px;
         transition: .4s;
+        width: 100%;
     }    
     .btn-flat-border:hover {
+        background: #67c5ff;
+        color: white;
+    }
+    
+    a {
+        font-size: 500%;
         background: #67c5ff;
         color: white;
     }
@@ -208,7 +218,7 @@ function init() {
     </div>
     <div id=floating-menu-right>
       <input id="save" type="submit" value="Save" class="btn-flat-border">
-      <div id="result"></div>
+      <div id="result" ></div>
     </div>
   </body>
 </html>
