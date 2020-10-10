@@ -74,6 +74,7 @@ function init() {
   var output = [];
 
   document.querySelector("#save").onclick = function() {
+    console.log(output)
     let data = output.map((record)=>record.join(',')).join('\r\n');
     let bom  = new Uint8Array([0xEF, 0xBB, 0xBF]);
     let blob = new Blob([bom, data], {type: 'text/csv'});
@@ -117,7 +118,7 @@ function init() {
   document.getElementById("time check").onclick = function() {
 
   if ( record_flag == false ) {
-
+    output.length = 0;
     clock.start();
     startTimer();
     document.getElementById("time check").value="Recording now"
@@ -126,7 +127,6 @@ function init() {
     clock.stop();
     stopTimer();
     counting = 0;
-    output.length = 0;
     document.getElementById("time check").value="Start Record"
   }
   record_flag = !record_flag;
